@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ActiveReportsLayout Version="3.5" PrintWidth="15401.28" DocumentName="ActiveReports Document" ScriptLang="C#" MasterReport="0" CompatibilityMode="CrossPlatform">
+  <StyleSheet>
+    <Style Name="Normal" Value="font-family: Arial; font-style: normal; text-decoration: none; font-weight: normal; font-size: 10pt; background-color: transparent; color: Black; text-align: left; vertical-align: top; ddo-char-set: 186" />
+    <Style Name="Heading1" Value="font-family: Arial; font-size: 16pt; font-style: normal; font-weight: bold" />
+    <Style Name="Heading2" Value="font-family: Times New Roman; font-size: 14pt; font-style: italic; font-weight: bold" />
+    <Style Name="Heading3" Value="font-family: Arial; font-size: 13pt; font-style: normal; font-weight: bold" />
+  </StyleSheet>
+  <Sections>
+    <Section Type="PageHeader" Name="PageHeader" Height="1104" BackColor="16777215">
+      <Control Type="AR.Field" Name="TextBox3" DataField="SystemDateJaYY" Left="12792.06" Top="809.28" Width="702.9921" Height="286.2992" Text="" CanGrow="0" Style="font-family: ＭＳ ゴシック; font-size: 11pt; text-align: right; vertical-align: middle; white-space: nowrap; ddo-char-set: 1; ddo-shrink-to-fit: none; ddo-wrap-mode: nowrap" />
+      <Control Type="AR.Field" Name="TextBox4" DataField="SystemDateMM" Left="13874.89" Top="809.28" Width="283.4646" Height="286.2992" Text="" CanGrow="0" Style="font-family: ＭＳ ゴシック; font-size: 11pt; text-align: right; vertical-align: middle; white-space: nowrap; ddo-char-set: 1; ddo-shrink-to-fit: none; ddo-wrap-mode: nowrap" />
+      <Control Type="AR.Field" Name="TextBox17" DataField="SystemDateDD" Left="14535.36" Top="809.28" Width="283.4646" Height="286.2992" Text="" CanGrow="0" Style="font-family: ＭＳ ゴシック; font-size: 11pt; text-align: right; vertical-align: middle; white-space: nowrap; ddo-char-set: 1; ddo-shrink-to-fit: none; ddo-wrap-mode: nowrap" />
+      <Control Type="AR.Label" Name="Label29" Left="13455.36" Top="809.28" Width="261.3543" Height="286.2992" Caption="年" Style="font-family: ＭＳ ゴシック; font-size: 11pt; text-align: left; vertical-align: middle; ddo-char-set: 1" />
+      <Control Type="AR.Label" Name="Label30" Left="14108.47" Top="809.28" Width="261.3544" Height="286.2992" Caption="月" Style="font-family: ＭＳ ゴシック; font-size: 11pt; text-align: left; vertical-align: middle; ddo-char-set: 1" />
+      <Control Type="AR.Label" Name="Label31" Left="14768.37" Top="809.28" Width="261.3544" Height="286.2992" Caption="日" Style="font-family: ＭＳ ゴシック; font-size: 11pt; text-align: left; vertical-align: middle; ddo-char-set: 1" />
+      <Control Type="AR.Label" Name="Label1" Left="5129.28" Top="89.28001" Width="5400" Height="552" Caption="調整班による平均単収差計算表" Style="font-family: ＭＳ ゴシック; font-size: 18pt; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label4" Left="5400" Top="629.28" Width="4500" Height="336" Caption="（全相殺方式、半相殺方式、特例半相殺方式）" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt" />
+      <Control Type="AR.Label" Name="Label5" Left="89.28001" Top="0" Width="1980" Height="408" Caption="様式例第４号の１" Style="font-family: ＭＳ ゴシック; font-size: 12pt; font-weight: normal; ddo-char-set: 0" />
+    </Section>
+    <Section Type="Detail" Name="Detail" Height="7596" BackColor="16777215">
+      <Control Type="AR.Label" Name="Label6" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="108.0003" Top="240.96" Width="2772" Height="329.28" Caption="共済目的" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label7" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="108" Top="779.0399" Width="2772" Height="329.28" Caption="損害評価地区の設定単位" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label8" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="108" Top="1290.24" Width="2772" Height="329.28" Caption="抜取調査班" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label10" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="108" Top="1620" Width="3581.28" Height="329.7598" Caption="類区分・引受方式・支払開始損害割合" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; ddo-char-set: 128" />
+      <Control Type="AR.Field" Name="TextBox2" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="2880" Top="240.4802" Width="3149.28" Height="329.76" Text="ＮＮ" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10.2pt; ddo-char-set: 128" />
+      <Control Type="AR.Field" Name="TextBox5" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="2880" Top="779.04" Width="3149.28" Height="329.76" Text="" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: left; ddo-char-set: 128" />
+      <Control Type="AR.Field" Name="TextBox6" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="3600" Top="1290.24" Width="2429.28" Height="329.76" Text="ＮＮＮＮＮＮＮＮ" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10.2pt; ddo-char-set: 128" />
+      <Control Type="AR.Field" Name="TextBox7" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="2880" Top="1290.24" Width="720" Height="329.76" Text="9999" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" />
+      <Control Type="AR.Field" Name="TextBox8" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="3689.28" Top="1620" Width="4590.721" Height="329.76" Text="ＮＮＮＮＮＮＮＮＮＮＮＮＮＮＮＮＮＮＮＮ" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10.2pt; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label11" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="108" Top="2628" Width="1332.479" Height="659.5199" Caption="" />
+      <Control Type="AR.Label" Name="Label12" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="108" Top="3287.52" Width="1332" Height="329.28" Caption="抜取調査" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label13" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="108.0004" Top="3617.28" Width="1332" Height="329.28" Caption="実測調査" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label14" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="1440" Top="2628" Width="3313.441" Height="329.28" Caption="調 整 班 抜 取 調 査" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label15" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="1440" Top="2957.76" Width="833.76" Height="329.28" Caption="筆数" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label16" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="2273.76" Top="2957.76" Width="1260" Height="329.28" Caption="検見単収" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label17" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="3533.761" Top="2957.76" Width="1219.681" Height="329.28" Caption="実測単収" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label18" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="4753.441" Top="2628" Width="1751.04" Height="329.28" Caption="抜取調査" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: left; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label19" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="4753.441" Top="2957.76" Width="1751.04" Height="329.28" Caption="抜取検見単収" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: left; ddo-char-set: 128" />
+      <Control Type="AR.Field" Name="TextBox9" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="1440" Top="3287.52" Width="833.76" Height="329.76" Text="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10pt; text-align: right; ddo-char-set: 1" />
+      <Control Type="AR.Field" Name="TextBox10" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="2273.76" Top="3287.52" Width="1260" Height="329.76" Text="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10pt; text-align: right; ddo-char-set: 1" />
+      <Control Type="AR.Field" Name="TextBox12" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="1440" Top="3617.28" Width="833.7603" Height="329.76" Text="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10pt; text-align: right; ddo-char-set: 1" />
+      <Control Type="AR.Field" Name="TextBox13" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="2273.76" Top="3617.28" Width="1260" Height="329.76" Text="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10pt; text-align: right; ddo-char-set: 1" />
+      <Control Type="AR.Field" Name="TextBox14" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="3533.76" Top="3617.28" Width="1219.681" Height="329.76" Text="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10pt; text-align: right; ddo-char-set: 1" />
+      <Control Type="AR.Field" Name="TextBox15" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="4753.441" Top="3287.52" Width="1751.04" Height="329.76" Text="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: right; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label20" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="4753.441" Top="3617.28" Width="1751.04" Height="329.28" Caption="" />
+      <Control Type="AR.Line" Name="Line1" X1="4753.441" Y1="3947.04" X2="6504.48" Y2="3617.28" />
+      <Control Type="AR.Label" Name="Label21" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="108.0001" Top="4314.24" Width="2772" Height="545.7603" Caption="" />
+      <Control Type="AR.Label" Name="Label22" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="108" Top="4860" Width="2772" Height="540.0004" Caption="抜取調査を検見及び実測の&#xD;&#xA;方法により行った場合" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" PaddingTop="2" />
+      <Control Type="AR.Label" Name="Label23" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="108" Top="5400" Width="2772" Height="540.0004" Caption="抜取調査を実測のみ又は検&#xD;&#xA;見のみの方法で行った場合" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" PaddingTop="2" />
+      <Control Type="AR.Label" Name="Label24" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="2880" Top="4314.24" Width="1889.28" Height="545.7603" Caption="検見単収&#xD;&#xA;修正係数" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" />
+      <Control Type="AR.Field" Name="TextBox16" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="2880" Top="4860" Width="1889.281" Height="539.9999" Text="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: right; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label25" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="2880" Top="5400" Width="1889.28" Height="539.9998" Caption="" />
+      <Control Type="AR.Line" Name="Line2" X1="2880" Y1="5940" X2="4769.28" Y2="5400" />
+      <Control Type="AR.Label" Name="Label26" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="4769.28" Top="5400" Width="1621.439" Height="539.9998" Caption="" />
+      <Control Type="AR.Line" Name="Line3" X1="4769.28" Y1="5940" X2="6390.72" Y2="5400" />
+      <Control Type="AR.Field" Name="TextBox18" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="4769.28" Top="4860" Width="1621.44" Height="539.9999" Text="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: right; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label27" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="4769.28" Top="4320" Width="1621.44" Height="540" Caption="検見単収&#xD;&#xA;の修正" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label32" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="6390.72" Top="4320" Width="1621.44" Height="540" Caption="単収の合&#xD;&#xA;計の差" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label33" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="8012.16" Top="4320" Width="1621.441" Height="540" Caption="平　均&#xD;&#xA;単収差" Style="font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: center; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label36" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="6390.72" Top="5400" Width="1621.439" Height="539.9998" Caption="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: right; ddo-char-set: 128" />
+      <Control Type="AR.Field" Name="TextBox19" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="6390.72" Top="4860" Width="1621.44" Height="539.9999" Text="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: right; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label37" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="8012.16" Top="5400" Width="1621.439" Height="539.9998" Caption="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: right; ddo-char-set: 128" />
+      <Control Type="AR.Field" Name="TextBox20" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="8012.16" Top="4860" Width="1621.44" Height="539.9999" Text="Z,ZZ9" Style="color: Gray; font-family: ＭＳ ゴシック; font-size: 10.2pt; text-align: right; ddo-char-set: 128" />
+      <Control Type="AR.Label" Name="Label9" BorderLeftStyle="1" BorderTopStyle="1" BorderRightStyle="1" BorderBottomStyle="1" Left="3533.761" Top="3287.52" Width="1219.68" Height="329.28" Caption="" />
+      <Control Type="AR.Line" Name="Line4" X1="3533.761" Y1="3600" X2="4753.441" Y2="3287.52" />
+    </Section>
+    <Section Type="PageFooter" Name="PageFooter" Height="492.0002" BackColor="16777215" />
+  </Sections>
+  <ReportComponentTray />
+  <Script><![CDATA[public void Detail_Format()
+{
+	
+}
+
+
+]]></Script>
+  <PageSettings LeftMargin="720" RightMargin="720" TopMargin="720" BottomMargin="720" Orientation="2" />
+  <Parameters />
+</ActiveReportsLayout>
