@@ -1,0 +1,79 @@
+﻿@using NskWeb.Areas.F207.Consts
+@using NskWeb.Areas.F207.Models.D207010
+@model D207010Model
+@{
+    // ４．画面制御設定
+    // ４．１．入力項目の表示制御
+    // ４．１．１．ログインユーザの権限、共済目的に基づき、活性・非活性制御を行う
+    bool isRuiKbnDisabled = false;
+    if (Model.KyosaiMokuteki == F207Const.KYOSAI_MOKUTEKI_RIKUTO)
+    {
+        isRuiKbnDisabled = true;
+    }
+}
+
+<h4 class="sub_title">条件選択</h4>
+<div class="mb-3">
+    <div>@Html.ValidationMessageFor(model => model.SearchCondition.RuiKbn, null, new { @class = "text-danger" })</div>
+    <div>@Html.ValidationMessageFor(model => model.SearchCondition.HikiukeHoushiki, null, new { @class = "text-danger" })</div>
+    <div>@Html.ValidationMessageFor(model => model.SearchCondition.HoshouWariai, null, new { @class = "text-danger" })</div>
+    <div>@Html.ValidationMessageFor(model => model.SearchCondition.KaisoKbn, null, new { @class = "text-danger" })</div>
+    <div>@Html.ValidationMessageFor(model => model.SearchCondition.DisplayCount, null, new { @class = "text-danger" })</div>
+    @Html.MessageAreaFor(model => model.MessageArea1, "", new { @class = "text-danger", id = "MessageArea1" })
+</div>
+
+<table class="table common_table table-condensed table-spe-bordered table-sub-bordered">
+    <caption class="visually-hidden">検索条件</caption>
+    <colgroup class="td_label" style="width: 10%;"></colgroup>
+    <colgroup class="td_control" style="width: 40%;"></colgroup>
+
+    @if (!isRuiKbnDisabled)
+    {
+        <tr>
+            @*類区分*@
+            <td>
+                @Html.LabelFor(model => model.SearchCondition.RuiKbn,
+                         Html.DisplayNameFor(model => model.SearchCondition.RuiKbn))
+            </td>
+            <td class="w-50">
+                @Html.DropDownListFor(model => model.SearchCondition.RuiKbn, Model.SearchCondition.RuiKbnLists,
+                         !isRuiKbnDisabled
+                         ? new { @class = "form-select form-select-lg", @title = "選択項目", @id = "RuiKbn", tabindex = "501" }
+                         : new { @class = "form-select form-select-lg", @title = "選択項目", @id = "RuiKbn", @disabled = "", tabindex = "501" })
+            </td>
+        </tr>
+    }
+    <tr>
+        @*引受方式*@
+        <td>
+            @Html.LabelFor(model => model.SearchCondition.HikiukeHoushiki,
+                     Html.DisplayNameFor(model => model.SearchCondition.HikiukeHoushiki))
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.SearchCondition.HikiukeHoushiki, Model.SearchCondition.HikiukeHoushikiLists,
+                     new { @class = "form-select form-select-lg w-50", @title = "選択項目", @id = "HikiukeHoushiki", tabindex = "502" })
+        </td>
+    </tr>
+    <tr>
+        @*補償割合*@
+        <td>
+            @Html.LabelFor(model => model.SearchCondition.HoshouWariai,
+                     Html.DisplayNameFor(model => model.SearchCondition.HoshouWariai))
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.SearchCondition.HoshouWariai, Model.SearchCondition.HoshouWariaiLists,
+                     new { @class = "form-select form-select-lg", @title = "選択項目", tabindex = "503" })
+        </td>
+    </tr>
+    <tr>
+        @*階層区分*@
+        <td>
+            @Html.LabelFor(model => model.SearchCondition.KaisoKbn,
+                     Html.DisplayNameFor(model => model.SearchCondition.KaisoKbn))
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.SearchCondition.KaisoKbn, Model.SearchCondition.KaisoKbnLists,
+                     new { @class = "form-select form-select-lg", @title = "選択項目", tabindex = "504" })
+        </td>
+    </tr>
+</table>

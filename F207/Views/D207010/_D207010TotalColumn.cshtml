@@ -1,0 +1,65 @@
+﻿@model NskWeb.Areas.F207.Models.D207010.D207010Model
+@{
+
+}
+
+<div class="table-thead-container">
+	<h4 class="sub_title">合計欄</h4>
+	<button type="button" class="btn btn-primary" id="Calc" name="Calc">
+		計算
+	</button>
+	<div class="mb-3">
+		@Html.MessageAreaFor(model => model.MessageArea3, "", new { @class = "text-danger", id = "MessageArea3" })
+	</div>
+	<table class="table table-bordered" style="">
+		<colgroup>
+			<col style="width: 20%;" />
+			<col style="width: 20%;" />
+			<col style="width: 20%;" />
+		</colgroup>
+
+		<thead style="background-color: #ecf1fb;">
+			<tr>
+				<th>
+					@Html.LabelFor(model => model.TotalColumn.ShikkaiChosaMensakiGokei,
+																	Html.DisplayNameFor(model => model.TotalColumn.ShikkaiChosaMensakiGokei))
+				</th>
+				<th>
+					@Html.LabelFor(model => model.TotalColumn.HeikinTanshusaHidariKajuchiGokei,
+																	Html.DisplayNameFor(model => model.TotalColumn.HeikinTanshusaHidariKajuchiGokei))
+				</th>
+				<th>
+					@Html.LabelFor(model => model.TotalColumn.TantoShuseiryoHidariKajuchiGokei,
+																	Html.DisplayNameFor(model => model.TotalColumn.TantoShuseiryoHidariKajuchiGokei))
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model.TotalColumn != null)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(model => model.TotalColumn.ShikkaiChosaMensakiGokei,
+												new { @id = "ShikkaiChosaMensakiGokei" })
+					</td>
+					<td>
+						@Html.DisplayFor(model => model.TotalColumn.HeikinTanshusaHidariKajuchiGokei,
+												new { @id = "HeikinTanshusaHidariKajuchiGokei" })
+					</td>
+					<td>
+						@Html.DisplayFor(model => model.TotalColumn.TantoShuseiryoHidariKajuchiGokei,
+												new { @id = "TantoShuseiryoHidariKajuchiGokei" })
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+<br />
+<div class="table-responsive table-thead-container">
+	<div class="btn_area btn_group_right">
+		<button type="button" class="btn btn-primary" id="Back" name="Back">
+			戻る
+		</button>
+	</div>
+</div>

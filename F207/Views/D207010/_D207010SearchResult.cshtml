@@ -1,0 +1,115 @@
+﻿@using NskWeb.Areas.F207.Consts
+@model NskWeb.Areas.F207.Models.D207010.D207010Model
+@{
+    // ４．画面制御設定
+    // ４．１．入力項目の表示制御
+    // ４．１．１．ログインユーザの権限、共済目的に基づき、活性・非活性制御を行う
+    bool isTantoShuseiryoDisabled = false;
+    bool isShuseiNashiKbnDisabled = false;
+    if (Model.DispKengen == F207Const.Authority.ReadOnly)
+    {
+        isTantoShuseiryoDisabled = true;
+        isShuseiNashiKbnDisabled = true;
+    }
+}
+@using (Html.BeginForm("Init", "D207010", FormMethod.Post, new { id = "D207010SearchResult", spellcheck = "false", autocomplete = "off" }))
+{
+
+    <div class="table-thead-container">
+        <h4 class="sub_title">単当修正量入力</h4>
+        <div class="mb-3">
+            @Html.MessageAreaFor(model => model.MessageArea2, "", new { @class = "text-danger", id = "MessageArea2" })
+        </div>
+        <div class="table-responsive table-thead-container">
+            @Html.Pager("ResultPager", "resultPagerClick", Model.SearchResult.Pager)
+        </div>
+        @Html.HiddenFor(model => model.SearchResult.AllRecCount)
+        <table class="table table-bordered" style="">
+            <colgroup>
+                <col style="width: 20%;" />
+                <col style="width: 10%;" />
+                <col style="width: 10%;" />
+                <col style="width: 20%;" />
+                <col style="width: 10%;" />
+                <col style="width: 10%;" />
+                <col style="width: 20%;" />
+            </colgroup>
+
+            <thead style="background-color: #ecf1fb;">
+                <tr>
+                    <th>評価地区</th>
+                    <th>悉皆調査面積</th>
+                    <th>平均単収差</th>
+                    <th>平均単収差の左加重値</th>
+                    <th>単当修正量</th>
+                    <th>修正無し区分</th>
+                    <th>単当修正量の左加重値</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.SearchResult.DispRecords.Count(); i++)
+                {
+                    <!-- 行ｎ -->
+                    <tr>
+                        @{
+                            string td_TantoShuseiryoHidariKajuchi = $"SearchResult_DispRecord[{i}]_TantoShuseiryoHidariKajuchi";
+                        }
+                        <td>
+                            @Html.DisplayFor(model => model.SearchResult.DispRecords[i].HyokaChikuCd)
+                            @Html.DisplayFor(model => model.SearchResult.DispRecords[i].HyokaChikuNm)
+                        </td>
+                        <td>
+                            @Html.HiddenFor(model => model.SearchResult.DispRecords[i].ShikkaiChosaMensaki)
+                            @Html.DisplayFor(model => model.SearchResult.DispRecords[i].ShikkaiChosaMensaki)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.SearchResult.DispRecords[i].HeikinTanshusa)
+                            @Html.HiddenFor(model => model.SearchResult.DispRecords[i].HeikinTanshusa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.SearchResult.DispRecords[i].HeikinTanshusaHidariKajuchi)
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model.SearchResult.DispRecords[i].TantoShuseiryo,
+                                                                !isTantoShuseiryoDisabled
+                                     ? new { htmlAttributes = new { @id = "SearchResult_TantoShuseiryo", @class = "form-control", Type = "text", tabindex = "518" } }
+                                     : new { htmlAttributes = new { @id = "SearchResult_TantoShuseiryo", @class = "form-control", Type = "text", @disabled = "", tabindex = "518" } })
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(model => model.SearchResult.DispRecords[i].ShuseiNashiKbn, !isShuseiNashiKbnDisabled ? new { @class = "form-check", tabindex = "519" } : new { @class = "form-check", @disabled = "", tabindex = "519" })
+                        </td>
+                        <td id=@td_TantoShuseiryoHidariKajuchi>
+                            @Html.HiddenFor(model => model.SearchResult.DispRecords[i].TantoShuseiryoHidariKajuchi)
+                            @Model.SearchResult.DispRecords[i].TantoShuseiryoHidariKajuchi
+                        </td>
+                        @Html.HiddenFor(model => model.SearchResult.DispRecords[i].Xmin)
+
+                    </tr>
+                }
+            </tbody>
+            @Html.HiddenFor(model => model.SearchResult.AllRecCount)
+        </table>
+        <div class="table-responsive table-thead-container">
+            @Html.Pager("ResultPager", "resultPagerClick", Model.SearchResult.Pager)
+        </div>
+    </div>
+    <br />
+    <div class="table-responsive table-thead-container">
+        <div class="btn_area btn_group_right">
+            @Html.HiddenFor(model => model.DispKengen)
+            @if (isTantoShuseiryoDisabled)
+            {
+                <button type="button" class="btn btn-primary" id="Regist" name="Regist" disabled>
+                    登録
+                </button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-primary" id="Regist" name="Regist" tabindex="520">
+                    登録
+                </button>
+            }
+
+        </div>
+    </div>
+}

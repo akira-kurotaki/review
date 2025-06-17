@@ -1,0 +1,224 @@
+@{
+    // Layout = "~/Views/Shared/_LayoutBodyOnly.cshtml";
+    ViewBag.HeaderPatternId = CoreConst.HEADER_PATTERN_ID_1;
+}
+@model NskWeb.Areas.F207.Models.D207030.D207030Model
+
+@using (Html.BeginForm("Init", "D207030", FormMethod.Post, new { id = "D207030Form", spellcheck = "false", autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="table-responsive table-thead-container">
+        <div class="main_title btn_group_left mt_5">
+            <h3>当初評価高計算処理（全相殺）</h3>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <br />
+    <div class="table-responsive table-thead-container">
+        <!-- Information Section -->
+        <div class="btn_area">
+            <label>年産:</label>
+            <label style="padding-left: 180px;">@Model.D207030Info.SNensanHikiuke</label>
+            <br />
+            <label>共済目的:</label>
+            <label style="padding-left: 150px;">@Model.KyosaiMokutekiMeisho</label>
+            <br />
+        </div>
+        <br />
+        <br />
+
+        @* 計算処理 エリア*@
+        <h4 class="sub_title">
+            当初評価高計算処理（全相殺）
+        </h4>
+
+        <div style="display: flex; align-items: center; height: 1.5em;">
+            @Html.ValidationMessageFor(model => model.MessageArea, "", new { @class = "text-danger", @id = "validationMessage", style = "min-height: 1.5em; line-height: 1.5em; margin-top: 0.5rem; display: block;" })
+        </div>
+
+        <div class="table-responsive" style="width: 80%;">
+            <table class="table common_table" style="width: 70%; border: none;">
+                <colgroup class="td_label"></colgroup>
+                <tr>
+                    <td style="width: 300px;">本所・支所</td>
+                    <td style="vertical-align: middle;">
+                        @Html.DropDownListFor(
+                                 model => model.HonshoShishoCd,
+                                 Model.HonshoShishoList,
+                                 "",
+                                 new { @class = "form-select form-select-lg", id = "HonshoShishoCd", title = "選択項目" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 300px;">政府保険認定区分</td>
+                    <td style="vertical-align: middle;">
+                        @Html.DropDownListFor(
+                                 model => model.SeifuHokenNinteiCd,
+                                 Model.SeifuHokenNinteiList,
+                                 "",
+                                 new { @class = "form-select form-select-lg", id = "SeifuHokenNinteiCd", title = "選択項目" })
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <br />
+
+        @* 実行履歴 エリア*@
+        <h4 class="sub_title">
+            実行履歴
+        </h4>
+
+        <div class="table-responsive" style="width: 80%;">
+            <table class="table common_table" style="width: 70%; border-collapse: collapse;" aria-describedby="exeLogCaption">
+                <caption id="exeLogCaption" class="sr-only">実行履歴</caption>
+                <thead>
+                    <tr>
+                        <th scope="col" class="td_label" style="width: 300px; font-weight: normal;">支所名</th>
+                        <th scope="col" class="td_label" style="font-weight: normal;">実行日</th>
+                    </tr>
+                </thead>
+                <tbody id="jikkouRirekiBody">
+                    @foreach (var row in Model.JikkouRirekiList)
+                    {
+                        <tr class="jikkou-row" data-shisho="@row.ShishoNm">
+                            <td>@row.ShishoNm</td>
+                            <td>@row.JikkouDate</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+        @* ボタンエリア *@
+        <br />
+        <br />
+        <div style="display: flex; justify-content: flex-end; width: 80%; margin-top: 2rem; gap: 1rem;">
+            <button type="button" class="btn btn-primary mt_15" id="homeBtn" style="width: 120px;">戻る</button>
+            <button type="button" class="btn btn-warning mt_15" id="exeBtn" style="width: 120px;">実行</button>
+        </div>
+
+    </div>
+    @* 実行ボタン押下時のダイアログ *@
+    @Html.Confirm("insertDialog", "insertConfirm", "確認", MessageUtil.Get("MQ90001", "当初評価高計算処理（全相殺）バッチ"), "OK", "キャンセル")
+}
+
+@section scripts {
+    <script type="text/javascript">
+
+        // 実行ボタンの活性化
+        window.onload = function() {
+            var exeBtn = document.getElementById('exeBtn');
+            var updateKengenFlg = @Model.UpdateKengenFlg.ToString().ToLower();
+            console.log(updateKengenFlg);
+            if (updateKengenFlg) {
+                exeBtn.disabled = false;
+            } else {
+                exeBtn.disabled = true;
+            }
+        }
+
+        // ドロップダウン変更時 or 初期表示時
+        function updateJikkouRireki() {
+            const selectedCd = $("#HonshoShishoCd").val();
+            const selectedText = $("#HonshoShishoCd option:selected").text().replace(/^\d{2}\s*/, "");
+
+            $(".jikkou-row").each(function () {
+                const rowLabel = $(this).data("shisho");
+                if (selectedCd === "00") {
+                    $(this).show();  // 本所：全表示
+                } else {
+                    $(this).toggle(rowLabel === selectedText); // 支所：該当1行のみ
+                }
+            });
+        }
+
+        // 「戻る」ボタン押下 → 確認ダイアログ表示
+        $("#homeBtn").on("click", function () {
+            window.location.href = "/";
+        });
+        
+        $(function () {
+
+            // ▼ DropDownの<option>タグに data-name 属性を付ける処理
+            // 例：<option value="02">02 盛岡地域センター</option>
+            // →  <option value="02" data-name="盛岡地域センター">02 盛岡地域センター</option>
+            $("#HonshoShishoCd option").each(function () {
+                const text = $(this).text();                        // 表示文字列を取得（例: "02 盛岡地域センター"）
+                const name = text.replace(/^\d{2}\s*/, "");         // 先頭の2桁のコードを除去して支所名だけを抽出
+                $(this).attr("data-name", name);                    // data-name 属性として付加
+            });
+
+            // 初回表示時に実行履歴を切り替え（ドロップダウン初期値対応）
+            updateJikkouRireki();
+
+            // ドロップダウン変更時にも実行履歴を更新
+            $("#HonshoShishoCd").on("change", updateJikkouRireki);
+
+        @* 実行ボタンを押下 *@
+            $("#exeBtn").click(function () {
+                // メッセージエリア1の初期化
+                validationMessage.textContent = "";
+                validationMessage.style.setProperty('color', 'red', 'important');
+
+                var shishoCd = $("#HonshoShishoCd").val();
+
+                if (!shishoCd) {
+                    validationMessage.textContent = "@MessageUtil.Get("ME00001", "支所", "")";
+                    return;
+                }
+
+                
+                @* 確認ダイアログを表示 *@
+                @Html.ShowConfirm("insertDialog");
+         });
+
+        @* 実行ボタン:確認ダイアログにOKを押下後の処理 *@
+            $("#insertConfirm").click(function () {
+
+                // 表示中の実行履歴の支所名リストを取得
+                const selectedTextList = $(".jikkou-row:visible").map(function () {
+                    return $(this).data("shisho");
+                }).get();
+
+                const visibleCodes = $("#HonshoShishoCd option").toArray()
+                    .filter(opt => selectedTextList.includes($(opt).data("name")))
+                    .map(opt => $(opt).val());
+
+                const shishoCodeCsv = visibleCodes.join(", ");
+
+                console.log("【確認ログ】shishoCodeCsv =", shishoCodeCsv);
+                console.log($("#HonshoShishoCd").val());
+
+                var url = '@Url.Action("CreatBatchReport", "D207030", new { area = "F207" })';
+                var formData = new FormData($('#D207030Form').get(0));
+                formData.append("ShishoCd", $("#HonshoShishoCd").val());
+                formData.append("ShishoCdCsv", shishoCodeCsv);
+                formData.append("SeifuHokenNinteiCd", $("#SeifuHokenNinteiCd").val());
+
+                 $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    dataType: 'json',
+                    url: url,
+                }).done(function (data) {
+                    if (data.success) {
+                        // 処理成功時
+                        validationMessage.textContent = data.message;
+                        validationMessage.style.setProperty('color', 'black', 'important');
+                    } else {
+                        // エラー時
+                        validationMessage.textContent = data.message;
+                    }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    // AJAXリクエストが失敗した場合
+                    validationMessage.textContent = "@MessageUtil.Get("ME01645", "サーバーリクエスト")";
+                });
+            })
+        });       
+    </script>
+}

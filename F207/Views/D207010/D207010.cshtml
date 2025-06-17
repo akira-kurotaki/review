@@ -1,0 +1,493 @@
+﻿@using NskWeb.Areas.F207.Consts
+@using NskWeb.Areas.F207.Models.D207010
+@model D207010Model
+@{
+    ViewBag.HeaderPatternId = CoreConst.HEADER_PATTERN_ID_1;
+}
+<div>
+    <div class="main_title btn_group_left mt_5">
+        <h3>単当修正量入力</h3>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<br />
+
+<table class="w-50">
+    <colgroup style="width: 20%;"></colgroup>
+    <colgroup style="width: 15%;"></colgroup>
+    <colgroup style="width: 65%;"></colgroup>
+    <tr>
+        <td>年産：</td>
+        <td colspan="2">@Model.Nensan</td>
+    </tr>
+    <tr>
+        <td>共済目的：</td>
+        <td colspan="2">@Model.KyosaiMokuteki</td>
+    </tr>
+</table>
+<br />
+
+@using (Html.BeginForm("Init", "D207010", FormMethod.Post, new { id = "D207010Form", spellcheck = "false", autocomplete = "off" }))
+{
+    <div class="table-thead-container">
+
+        <div id="SearchConditionLists">
+            @await Html.PartialAsync("_D207010SearchCondition", Model)
+        </div>
+
+        <br />
+
+        <table class="table table-condensed table-sub-bordered">
+            <colgroup class="colgroup_background" style="width: 10%;"></colgroup>
+            <colgroup style="width: 18%;"></colgroup>
+            <colgroup style="width: 12%;"></colgroup>
+            <colgroup style="width: 18%;"></colgroup>
+            <colgroup style="width: 12%;"></colgroup>
+            <colgroup style="width: 18%;"></colgroup>
+            <colgroup style="width: 12%;"></colgroup>
+            <tr>
+                @*表示数*@
+                <td>
+                    @Html.LabelFor(model => model.SearchCondition.DisplayCount,
+                             Html.DisplayNameFor(model => model.SearchCondition.DisplayCount))
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.SearchCondition.DisplayCount, "display_count",
+                             new { @class = "form-select form-select-lg", tabindex = "505" })
+                </td>
+                <td colspan="5" class="td_spe_color"></td>
+            </tr>
+            <tr>
+                <td>表示順</td>
+                <td>
+                    @Html.DropDownListFor(model => model.SearchCondition.DisplaySort1, Model.SearchCondition.DisplaySortTypes,
+                             "", new { @class = "form-select form-select-lg", @title = "選択項目", tabindex = "506" })
+                </td>
+                <td>
+                    <div class="text-center">
+                        <fieldset>
+                            <legend class="visually-hidden">表示順１</legend>
+                            @Html.RadioButtonFor(model => model.SearchCondition.DisplaySortOrder1, CoreConst.SortOrder.DESC.ToString(),
+                                     new { @class = "magic-radio", @id = "DisplaySortOrder1_Desc", tabindex = "507" })
+                            <label for="DisplaySortOrder1_Desc">降順</label>
+                            @Html.RadioButtonFor(model => model.SearchCondition.DisplaySortOrder1, CoreConst.SortOrder.ASC.ToString(),
+                                     new { @class = "magic-radio", @id = "DisplaySortOrder1_Asc", tabindex = "508" })
+                            <label for="DisplaySortOrder1_Asc">昇順</label>
+                        </fieldset>
+                    </div>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.SearchCondition.DisplaySort2, Model.SearchCondition.DisplaySortTypes,
+                             "", new { @class = "form-select form-select-lg", @title = "選択項目", tabindex = "509" })
+                </td>
+                <td>
+                    <div class="text-center">
+                        <fieldset>
+                            <legend class="visually-hidden">表示順２</legend>
+                            @Html.RadioButtonFor(model => model.SearchCondition.DisplaySortOrder2, CoreConst.SortOrder.DESC.ToString(),
+                                     new { @class = "magic-radio", @id = "DisplaySortOrder2_Desc", tabindex = "510" })
+                            <label for="DisplaySortOrder2_Desc">降順</label>
+                            @Html.RadioButtonFor(model => model.SearchCondition.DisplaySortOrder2, CoreConst.SortOrder.ASC.ToString(),
+                                     new { @class = "magic-radio", @id = "DisplaySortOrder2_Asc", tabindex = "511" })
+                            <label for="DisplaySortOrder2_Asc">昇順</label>
+                        </fieldset>
+                    </div>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.SearchCondition.DisplaySort3, Model.SearchCondition.DisplaySortTypes,
+                             "", new { @class = "form-select form-select-lg", @title = "選択項目", tabindex = "512" })
+                </td>
+                <td>
+                    <div class="text-center">
+                        <fieldset>
+                            <legend class="visually-hidden">表示順３</legend>
+                            @Html.RadioButtonFor(model => model.SearchCondition.DisplaySortOrder3, CoreConst.SortOrder.DESC.ToString(),
+                                     new { @class = "magic-radio", @id = "DisplaySortOrder3_Desc", tabindex = "514" })
+                            <label for="DisplaySortOrder3_Desc">降順</label>
+                            @Html.RadioButtonFor(model => model.SearchCondition.DisplaySortOrder3, CoreConst.SortOrder.ASC.ToString(),
+                                     new { @class = "magic-radio", @id = "DisplaySortOrder3_Asc", tabindex = "515" })
+                            <label for="DisplaySortOrder3_Asc">昇順</label>
+                        </fieldset>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+}
+
+<div class="table-responsive table-thead-container">
+    <div class="btn_area btn_group_right">
+        <button type="button" class="btn btn-primary" id="Clear" name="Clear"  tabindex="516">
+            クリア
+        </button>
+        <button type="button" class="btn btn-primary" id="Search" name="Search" tabindex="517">
+            検索
+        </button>
+    </div>
+</div>
+
+<div id="SearchResult">
+    @await Html.PartialAsync("_D207010SearchResult", Model)
+</div>
+
+<div id="TotalColumn">
+    @await Html.PartialAsync("_D207010TotalColumn", Model)
+</div>
+
+@* クリア 編集内容破棄確認ダイアログ *@
+@Html.Confirm("ClearConfirm", "ClearConfirmOK", "確認",
+                                                MessageUtil.Get("MQ10025", "初期画面", "登録"), "OK", "キャンセル")
+@* 検索 編集内容破棄確認ダイアログ *@
+@Html.Confirm("SearchConfirm", "SearchConfirmOK", "確認",
+                                                MessageUtil.Get("MQ10025", "新しい検索結果", "登録"), "OK", "キャンセル")
+@* ページャー 編集内容破棄確認ダイアログ *@
+@Html.Confirm("PagerDiscardEditsConfirm", "PagerConfirmOK", "確認",
+                                                MessageUtil.Get("MQ10025", "他ページ", "登録"), "OK", "キャンセル")
+@* 登録 編集内容登録確認ダイアログ *@
+@Html.Confirm("RegistConfirm", "RegistConfirmOK", "確認",
+                                                MessageUtil.Get("MQ10018"), "OK", "キャンセル")
+@* 戻る 編集内容破棄確認ダイアログ *@
+@Html.Confirm("BackConfirm", "BackConfirmOK", "確認",
+                                                MessageUtil.Get("MQ10025", "ポータル", "登録"), "OK", "キャンセル")
+
+@section scripts {
+    <script>
+        var resultPagerUrl = "";
+        @* 検索結果ページャー *@
+        function resultPagerClick(url) {
+            resultPagerUrl = url;
+            @Html.ShowDialog("PagerDiscardEditsConfirm");
+        };
+        $("#PagerConfirmOK").click(function () {
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                contentType: "application/json; charset=utf-8",
+                data: "",
+                dataType: 'json',
+                url: resultPagerUrl
+            }).done(function (data) {
+                // ３．受信データを画面反映
+                //(1)	受信データ（JSON形式）から部分ビューの文字列を取得する。
+                //(2)	部分ビュー文字列を反映する。
+                //    ※単当修正量入力欄
+                if (data.message != null) {
+                    $('#MessageArea1').addClass("text-danger").html(data.message);
+                }
+                else {
+                    $('#SearchResult').html(data.partialView);
+                }
+                $("html, body").scrollTop($(@CoreConst.SEARCH_RESULT_DIV_ID).offset().top);
+
+                //(3)	バリデータを再設定する。
+                $("#D207010Form").validate().resetForm();
+                $("#D207010Form").each(function () { $.data($(this)[0], 'validator', false); });
+                $.validator.unobtrusive.parse('#SearchResult');
+
+                // (4)	合計欄を空白にする。
+                $("#ShikkaiChosaMensakiGokei").val() = "";
+                $("#HeikinTanshusaHidariKajuchiGokei").val() = "";
+                $("#TantoShuseiryoHidariKajuchiGokei").val() = "";
+            }).fail(function () {
+                location.href = "@Url.Action("Init", "D900002", new { area = "F900" })";
+            })
+        });
+
+        $(function () {
+            @*類区分ドロップダウンリスト項目変更時*@
+            $(document).on('change', "#RuiKbn", function() {
+                // １．類区分の送信
+                // １．１．類区分の選択値をJSON化する
+                // １．２．入力データ（JSON形式）を送信する。
+                var url = "@Url.Action("ChangeRuikbn", "D207010", new { area = "F207" })";
+                var ruiKbn = $("#RuiKbn").val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: { ruiKbn: ruiKbn },
+                    dataType: 'json',
+                    contentType: "application/json",
+                    cache: false,
+                }).done(function (data) {
+                    // ３．受信データを画面反映
+                    // (1)	受信データ（JSON形式）から各項目を取得する。
+                    // (2)	各項目に反映する。
+                    $('#SearchConditionLists').html(data.partialView);
+                }).fail(function () {
+                    location.href = "@Url.Action("Init", "D900002", new { area = "F900" })";
+                });
+            });
+
+            $(document).on('change', "#HikiukeHoushiki", function() {
+                // １．引受方式の送信
+                // １．１．類区分、引受方式の選択値をJSON化する
+                // １．２．入力データ（JSON形式）を送信する。
+                var url = "@Url.Action("ChangeHikiukeHoshiki", "D207010", new { area = "F207" })";
+                var ruiKbn = $("#RuiKbn").val();
+                var hikiukeHoushiki = $("#HikiukeHoushiki").val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: { ruiKbn, hikiukeHoushiki: ruiKbn, hikiukeHoushiki },
+                    dataType: 'json',
+                    contentType: "application/json",
+                    cache: false,
+                }).done(function (data) {
+                    // ３．受信データを画面反映
+                    // (1)	受信データ（JSON形式）から各項目を取得する。
+                    // (2)	各項目に反映する。
+                    $('#SearchConditionLists').html(data.partialView);
+                }).fail(function () {
+                    location.href = "@Url.Action("Init", "D900002", new { area = "F900" })";
+                });
+            });
+
+            $(document).on('change', "#SearchResult input[type='checkbox']", function() {
+
+                //チェックボックスのcheckedの内容をvalueにセット。
+                var target = document.activeElement;
+                var cvalue = document.activeElement.checked;
+                target.value = cvalue;
+            });
+
+
+
+            @* クリア処理 *@
+            $("#Clear").on('click', function(){
+                var recCnt = $("#SearchResult_AllRecCount").val();
+                if (recCnt != "0") {
+                    @Html.ShowDialog("ClearConfirm");
+                } else {
+                    $("#ClearConfirmOK").click();
+                }
+            });
+            $("#ClearConfirmOK").on('click', function(){
+                // １．初期画面へ遷移する。
+                var initLink = "@Url.Action("Index", "D207010", new { area = "F207" })";
+                location.href = initLink;
+            });
+
+            @* 検索ボタン押下時 *@
+            $("#Search").on('click', function() {
+                // １．確認ダイアログを表示する。
+                // "MQ10025"：{0}へ遷移します。よろしいですか？（{1}ボタンを押していない場合は編集内容は破棄されます。）
+                // {0}：新しい検索結果
+                // {1}：登録
+                var recCnt = $("#SearchResult_AllRecCount").val();
+                if (recCnt != "0") {
+                    @Html.ShowDialog("SearchConfirm");
+                } else {
+                    $("#SearchConfirmOK").click();
+                }
+            })
+            $("#SearchConfirmOK").on('click', function() {
+                // ２．入力チェックを行う。
+                // ２．１．属性チェック
+                // エラーチェック仕様に基づき各項目のチェックを行う。
+                var checkValid = $("#D207010Form").valid();
+                if (!checkValid)
+                {
+                    // ２．１．１．エラーの場合
+                    // エラーが発生した各入力欄の直下にメッセージを表示する。
+                    $('.input-validation-error:first').focus();
+                    return;
+                }
+
+                // チェックエラーなしの場合
+                var url = "@Url.Action("Search", "D207010", new { area = "F207" })";
+                var formData = new FormData($("#D207010Form").get(0));
+
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    data: formData,
+                    dataType: 'json',
+                    url: url,
+                    processData: false,  //ajaxがdataを整形しない指定
+                    contentType: false  //contentTypeもfalseに指定
+                }).done(function (data) {
+                    if (data.message != null) {
+                        $('#MessageArea2').addClass("text-danger").html(data.message);
+                    }
+
+                    // (2)	受信データ（JSON形式）から部分ビューの文字列を取得する。
+                    // バリデーションエラー表示部の更新
+                    // 部分ビュー文字列を反映する。
+                    // ※単当修正量入力欄
+                    $('#SearchResult').html(data.resultArea1.partialView);
+                    // ※合計欄
+                    $('#TotalColumn').html(data.resultArea2.partialView);
+
+                    // (3)	バリデータを再設定する。
+                    // 検索後のバリデータ再設定
+                    $("#D207010Form").validate().resetForm();
+                    $("#D207010Form").each(function () { $.data($(this)[0], 'validator', false); });
+                    $.validator.unobtrusive.parse('#SearchResult');
+
+                    // (4)検索結果の有無により登録ボタンの活性・非活性を設定する。
+                    //    また、ユーザーの権限設定に伴い、設定の有無を決定する。  
+
+                    var recCnt = $("#SearchResult_AllRecCount").val();
+                    if (recCnt > 0 && $("#DispKengen").val() == "Update" ) {
+                        $("#Regist").prop('disabled', false);
+                    }
+                    else {
+                        $("#Regist").prop('disabled', true);
+                    }
+                }).fail(function () {
+                    location.href = "@Url.Action("Init", "D900002", new { area = "F900" })";
+                });
+            });
+
+            @* 単当修正量からフォーカスが外れた時 *@
+            $(document).on('blur', "#SearchResult_TantoShuseiryo", function () {
+                var checkValid = $("#D207010Form").valid();
+                if (!checkValid) {
+                    $('.input-validation-error:first').focus();
+                };
+
+                //画面上の表示数を元に処理を回す。
+                var recCnt = $(`#SearchCondition_DisplayCount`).val();
+                var errcnt = false;
+                for (var i = 0; i < recCnt; i ++ ) {
+                    //表示数よりデータ数が少ない場合には、ループを終らせる。
+                    if($("#SearchResult_AllRecCount").val() <= i)
+                    {
+                        break;
+                    }
+
+                    $(`input[name="SearchResult.DispRecords[${i}].TantoShuseiryo"]`).removeClass("input-validation-error");
+                    var TantoShuseiryo = $(`input[name="SearchResult.DispRecords[${i}].TantoShuseiryo"]`).val();
+                    var ShikkaiChosaMensaki = $(`input[name="SearchResult.DispRecords[${i}].ShikkaiChosaMensaki"]`).val();
+                    var TantoShuseiryoFrom = -1000;
+                    var TantoShuseiryoTo = 1000;
+
+                    if(TantoShuseiryo == undefined)
+                    {
+                        break;
+                    }
+
+                    //最初に発生したエラーメッセージを取得しておいて最終的に表示する。
+                    if (!(TantoShuseiryoFrom < TantoShuseiryo && TantoShuseiryo < TantoShuseiryoTo))
+                    {
+                        if (!(TantoShuseiryoFrom < TantoShuseiryo))
+                        {
+                            if (!errcnt)
+                            {
+                                $('#MessageArea2').addClass("text-danger").html("@MessageUtil.Get("ME10096", "-1000", "単当修正量")");
+                                errcnt = true;
+                            };
+
+                        }
+                        else if (!(TantoShuseiryo < TantoShuseiryoTo))
+                        {
+                            if(!errcnt)
+                            {
+                                $('#MessageArea2').addClass("text-danger").html("@MessageUtil.Get("ME10022", "1000", "単当修正量")");
+                                errcnt = true;
+                            };
+
+                        }
+                        //赤背景追加
+                        $(`input[name="SearchResult.DispRecords[${i}].TantoShuseiryo"]`).addClass("input-validation-error");
+                    }
+                    else
+                    {
+                        var TantoShuseiryoHidariKajuchiGokei = parseFormatNum(ShikkaiChosaMensaki * TantoShuseiryo, 1);
+                        //計算結果の再表示
+                        $(`td[id="SearchResult_DispRecord[${i}]_TantoShuseiryoHidariKajuchi"]`)[0].innerText = TantoShuseiryoHidariKajuchiGokei;
+                    }
+                }
+            });
+
+             // 登録ボタン押下時
+            $(document).on('click', "#Regist", function(){
+                @Html.ShowDialog("RegistConfirm");
+            });
+            $(document).on('click', "#RegistConfirmOK", function(){
+                var url = "@Url.Action("Regist", "D207010", new { area = "F207" })";
+                var formData = new FormData($("#D207010SearchResult").get(0));
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    data: formData,
+                    dataType: 'json',
+                    url: url,
+                    processData: false,  //ajaxがdataを整形しない指定
+                    contentType: false  //contentTypeもfalseに指定
+                }).done(function (data)
+                {
+                    if (data.message != null)
+                    {
+                        $('#MessageArea2').addClass("text-danger").html(data.message);
+                    };
+                }).fail(function ()
+                {
+                    location.href = "@Url.Action("Init", "D900002", new { area = "F900" })";
+                });
+            });
+
+            // 計算ボタン押下時
+            $(document).on('click', "#Calc", function() {
+                var recCnt = $(`#SearchCondition_DisplayCount`).val();
+
+                //表示数よりデータ数が少ない場合には、ループを終らせる。
+                if($("#SearchResult_AllRecCount").val() <= recCnt)
+                {
+                    recCnt = $("#SearchResult_AllRecCount").val();
+                };
+
+                //POST用formdata
+                var url = "@Url.Action("Calc", "D207010", new { area = "F207" })";
+                var formData = new FormData($("#D207010Form").get(0));
+                //計算処理をサーバー側で処理を実行 POST
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    data: formData,
+                    dataType: 'json',
+                    url: url,
+                    processData: false,  //ajaxがdataを整形しない指定
+                    contentType: false  //contentTypeもfalseに指定
+                }).done(function (data) {
+                    if (data.message != null) {
+                        // ※合計欄
+                    $('#TotalColumn').html(data.resultArea2.partialView);
+                    // 合計の計算値をセットしてからエラーメッセージをセット
+                    $('#MessageArea3').addClass("text-danger").html(data.message);
+
+                    }
+                }).fail(function () {
+                    location.href = "@Url.Action("Init", "D900002", new { area = "F900" })";
+                });
+            });
+
+            // 戻る
+            $("#Back").on('click', function() {
+                @Html.ShowDialog("BackConfirm")
+            });
+            $("#BackConfirmOK").click(function(){
+                var backLink = "@Url.Action("Init", "D000000", new { area = "F000" })";
+                var url = "@Url.Action("Back", "D207010", new { area = "F207" })";
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: null,
+                    dataType: 'json',
+                    contentType: "application/json",
+                    cache: false,
+                }).done(function () {
+                    location.href = backLink;
+                }).fail(function () {
+                    location.href = "@Url.Action("Init", "D900002", new { area = "F900" })";
+                });
+            });
+
+        });
+
+    </script>
+}

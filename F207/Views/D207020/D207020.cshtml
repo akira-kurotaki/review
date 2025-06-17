@@ -1,0 +1,303 @@
+﻿@model NskWeb.Areas.F207.Models.D207020.D207020Model
+@{
+    ViewBag.HeaderPatternId = CoreConst.HEADER_PATTERN_ID_1;
+}
+<div>
+    <div class="main_title btn_group_left mt_5">
+        <h3>当初評価高計算処理 (半相殺) </h3>
+    </div>
+    <div class="clearfix"></div>
+</div>
+@using (Html.BeginForm("Init", "D207020", FormMethod.Post, new { id = "D207020Form", spellcheck = "false", autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+    @await Html.PartialAsync("_HiddenWindowId")
+
+    <div class="table-responsive">
+        <br>
+        <table>
+            <caption class="visually-hidden">年産共済情報</caption>
+            <colgroup style="width: 15%;"></colgroup>
+            <colgroup style="width: 25%;"></colgroup>
+            <colgroup style="width: 60%;"></colgroup>
+            <tr>
+                @* 年産 *@
+                <td>
+                    年産：
+                </td>
+                <td>
+                    <table style="width:100%">
+                        <tr>
+                            <td colspan="3">
+                                @Html.Label("", Model.SearchCondition.Nensan)
+                                @Html.HiddenFor(model => model.SearchCondition.Nensan)
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                @* 共済目的 *@
+                <td>
+                    共済目的：
+                </td>
+                <td>
+                    <table style="width:100%">
+                        <tr>
+                            <td colspan="3">
+                                @Html.Label("", Model.SearchCondition.KyosaiMokutekiNm)
+                                @Html.HiddenFor(model => model.SearchCondition.KyosaiMokutekiCd)
+                                @Html.HiddenFor(model => model.SearchCondition.KyosaiMokutekiNm)
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <br>
+        @* 権限フラグ *@
+        @Html.HiddenFor(model => model.DispKengen)
+        @* 支所実行単位区分 *@
+        @Html.HiddenFor(model => model.SearchCondition.ShishoJikkoHikiukeKbn)
+        @* 組合等コード *@
+        @Html.HiddenFor(model => model.SearchCondition.KumiaitoCd)
+        @* 農単抜取調査悉皆評価反映チェック *@
+        @Html.HiddenFor(model => model.IsCheckFlg)
+
+
+    </div>
+    <div class="table-responsive">
+        <h4 class="sub_title">計算対象</h4>
+        <div class="mb-3">
+            @Html.MessageAreaFor(model => model.MessageArea1, "", new { @class = "text-danger", id = "MessageArea1" })
+        </div>
+        <br>
+        <table class="table common_table table-condensed table-spe-bordered table-sub-bordered">
+            <caption class="visually-hidden">計算対象</caption>
+            <colgroup class="td_label" style="width: 20%;"></colgroup>
+            <colgroup class="td_control" style="width: 40%;"></colgroup>
+            <colgroup style="width: 40%;"></colgroup>
+            <tr>
+                @* 本所・支所 *@
+                <td>
+                    @Html.LabelFor(model => model.SearchCondition.HonshoshishoList, "本所・支所")
+                    <i class="required">必須</i>
+                </td>
+                
+                @if (Model.IsShishoDropDownDisabled)
+                {
+                    <td>
+                        @Html.DropDownListFor(model => model.SearchCondition.SelectShishoCd, Model.SearchCondition.HonshoshishoList,
+                                 new { @class = "form-select form-select-lg", tabindex = 501, @title = "本所・支所コードを選択", @disabled = Model.IsShishoDropDownDisabled })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DropDownListFor(model => model.SearchCondition.SelectShishoCd, Model.SearchCondition.HonshoshishoList,
+                                 new { @class = "form-select form-select-lg", tabindex = 501, @title = "本所・支所コードを選択" })
+                    </td>
+                }
+                @Html.HiddenFor(model => model.SearchCondition.SelectShishoNm)
+                <td class="td_spe_color"></td>
+            </tr>
+        </table>
+        <br>
+    </div>
+
+    <div class="table-responsive">
+        <div class="split_line" id="@CoreConst.SEARCH_RESULT_DIV_ID"></div>
+        <h4 class="sub_title">実行履歴</h4>
+    </div>
+    <div id="SearchResult">
+        @await Html.PartialAsync("_D207020SearchResult", Model)
+    </div>
+    <br />
+
+    <div class="table-responsive">
+        <div class="btn_area btn_group_right">
+            <button type="button" class="btn btn-primary" id="backBtn" tabindex="502">戻る</button>
+                <button type="button" class="btn btn-primary" id="Exec" tabindex="503" >
+                    実行
+                </button>
+            
+        </div>
+    </div>
+}
+
+@Html.Confirm("CreateClick", "CreateConfirm", "確認", MessageUtil.Get("MQ10004", "当初評価高計算処理"), "OK", "キャンセル")
+@* 戻る 編集内容破棄確認ダイアログ *@
+@Html.Confirm("BackConfirm", "BackConfirmOK", "確認",
+                        MessageUtil.Get("MQ10025", "ポータル", "実行"), "OK", "キャンセル")
+
+@section styles {
+    <style type="text/css">
+    </style>
+}
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            // チェックエラー後のカーソルの位置が先頭の入力項目に設定する
+            $('.input-validation-error:first').focus();
+
+            // 実行ボタンの非活性
+            // 1.更新権限不可ユーザーでログインの場合、登録ボタンを非活性にする
+            if ($("#DispKengen").val() == 'ReadOnly') {
+                $("#Exec").prop("disabled",true);
+            }else{
+                $("#Exec").prop("disabled",false);
+            }
+
+            // 2.共済目的、引受年産、組合等コードいずれかが空白の場合
+            if ($("input[name='SearchCondition.Nensan']").val() == "" || $("input[name='SearchCondition.KyosaiMokutekiCd']").val() == "" ||
+                    $("input[name='SearchCondition.KumiaitoCd']").val() == "") {
+                $("#Exec").prop("disabled",true);
+            }
+
+
+            // 選択されているドロップダウンリストの支所名称をhiddenへ設定
+            setShishoCdAndShishoNm();
+
+            @* 戻る *@
+            $("#backBtn").click(function () {
+                @Html.ShowDialog("BackConfirm");
+            });
+            $("#BackConfirmOK").click(function(){
+                var backLink = "@Url.Action("Init", "D000000", new { area = "F000" })";
+                var url = "@Url.Action("Back", "D207020", new { area = "F207" })";
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: null,
+                    dataType: 'json',
+                    contentType: "application/json",
+                    cache: false,
+                }).done(function () {
+                    location.href = backLink;
+                }).fail(function () {
+                    location.href = "@Url.Action("Init", "D900002", new { area = "F900" })";
+                });
+            });
+
+            @* 実行 *@
+            $("#Exec").click(function () {
+                var messageArea1 = $("#MessageArea1");
+                @* 前回のメッセージをクリアする *@
+                messageArea1.html("");
+                var validationError = "input-validation-error";
+                var message = "";
+
+                //　１．農単抜取調査悉皆評価反映チェックを行う。
+
+                var noutancheck = false;
+                CheckExecution(noutancheck);
+
+            });
+
+            @* リストボックス変更時イベント *@
+            $("#SearchCondition_SelectShishoCd").on('change', function () {
+
+                @* 選択されたリストボックスの支所コードをhiddenへ設定 *@
+                setShishoCdAndShishoNm();
+
+                @* 選択されたリストボックスに対応する引受回テーブルに表示を更新する *@
+                onChange();
+
+            });
+
+            // 引受計算処理確認ダイアログの「OK」ボタンを押下
+            $('#CreateConfirm').click(function () {
+                $("#SearchCondition_SelectShishoCd").removeAttr(`disabled`);
+                doBatchYoyaku();
+            });
+        })
+
+        function doBatchYoyaku(){
+            // バッチ予約テーブルへの登録処理
+            var url = '@Url.Action("Execution", "D207020", new { area = "F207" })';
+            var formData = new FormData($('#D207020Form').get(0));
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                dataType: 'json',
+                url: url,
+            }).done(function (response) {
+                $('#MessageArea1').html(response.message);
+            }).fail(function () {
+                location.href = "@Url.Action("Init", "D90002", new { area = "F900" })";
+            });
+
+        }
+
+        @* 選択されたリストボックスの支所名称を設定 *@
+        function setShishoCdAndShishoNm()
+        {
+            @* 現在選択されたリストボックスの支所名称をHiddeに設定 *@
+            $("#SearchCondition_SelectShishoNm").val($("#SearchCondition_SelectShishoCd option:Selected").text());
+        }
+
+        @* 実行履歴を取得する処理(ドロップダウン選択時) *@
+        function onChange()
+        {
+            // 選択されたリストボックスに対応する引受回テーブルに表示を更新する
+            var url = '@Url.Action("Change", "D207020", new { area = "F207" })';
+            var formData = new FormData($('#D207020Form').get(0));
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                dataType: 'html',
+                url: url,
+            }).done(function (data) {
+                $('#SearchResult').html(data);
+                $('#MessageArea1').html("");
+            }).fail(function () {
+                location.href = "@Url.Action("Init", "D90002", new { area = "F900" })";
+            });
+        }
+
+        function CheckExecution(noutancheck){
+            // バッチ予約テーブルへの登録処理
+            var url = '@Url.Action("CheckExecution", "D207020", new { area = "F207" })';
+            var formData = new FormData($('#D207020Form').get(0));
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                dataType: 'json',
+                url: url,
+            }).done(function (response) {
+                $('#MessageArea1').html(response.message);
+                $("#IsCheckFlg").val(response.flg);
+
+                if($("#IsCheckFlg").val() == 1)
+                {
+                    noutancheck = true;
+                };
+
+
+                // 引受計算が行われていない場合
+                if(!(noutancheck)){
+                    @Html.ShowDialog("CreateClick");
+                };
+
+            }).fail(function () {
+                location.href = "@Url.Action("Init", "D90002", new { area = "F900" })";
+            });
+
+        }
+    </script>
+}
