@@ -92,7 +92,7 @@ namespace NskWeb.Areas.F207.Models.D207030
             List<VShishoNm> shishoNms = new();
 
             // 「本所」の場合の分岐
-            if (sessionInfo.ShishoCd == "")
+            if (!string.IsNullOrEmpty(sessionInfo.ShishoCd))
             {
                 if (sessionInfo.HikiukeJikkoTanniKbnHikiuke == "1")
                 {
@@ -104,8 +104,7 @@ namespace NskWeb.Areas.F207.Models.D207030
                             x.ShishoCd == AppConst.HONSHO_CD)
                         .OrderBy(x => x.ShishoCd));
                 }
-                else if (sessionInfo.HikiukeJikkoTanniKbnHikiuke == "2" ||
-                         sessionInfo.HikiukeJikkoTanniKbnHikiuke == "3")
+                else
                 {
                     // 本所配下のすべての支所を表示
                     shishoNms.AddRange(dbContext.VShishoNms

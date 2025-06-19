@@ -62,7 +62,7 @@ namespace NskWeb.Areas.F207.Models.D207030
             TodofukenCd = syokuin.TodofukenCd;
             KumiaitoCd = syokuin.KumiaitoCd;
             ShishoCd = syokuin.ShishoCd;
-            Nensan = int.TryParse(portalModel?.SNensanHikiuke, out var nen) ? nen : 0;
+            Nensan = int.TryParse(portalModel?.SNensanHyoka, out var nen) ? nen : 0;
             KyosaiMokutekiCd = portalModel?.SKyosaiMokutekiCd ?? string.Empty;
             HikiukeJikkoTanniKbnHikiuke = portalModel?.SHikiukeJikkoTanniKbnHikiuke ?? string.Empty;
 

@@ -162,6 +162,7 @@
                 validationMessage.textContent = "";
                 validationMessage.style.setProperty('color', 'red', 'important');
 
+                // 支所の必須チェック
                 var shishoCd = $("#HonshoShishoCd").val();
 
                 if (!shishoCd) {
@@ -169,6 +170,12 @@
                     return;
                 }
 
+                // 政府保険認定区分の必須チェック 
+                var seifuHokenKbn = $("#SeifuHokenNinteiCd").val();
+                if (!seifuHokenKbn) {
+                    validationMessage.textContent = "@MessageUtil.Get("ME00001", "政府保険認定区分", "")";
+                    return;
+                }
                 
                 @* 確認ダイアログを表示 *@
                 @Html.ShowConfirm("insertDialog");

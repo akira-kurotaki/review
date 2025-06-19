@@ -82,16 +82,12 @@ namespace NskWeb.Areas.F207.Controllers
             // 本所・支所ドロップダウン初期化
             model.InitializeDropdonwList(db, sessionInfo);
 
-            // ▼ 政府保険認定区分ドロップダウンの初期化（固定値：引受方式 = "1"）
-            // TODO: 引受方式は将来的に sessionInfo.HikiukeHosiki に置き換える
-            // var hikiuke = sessionInfo.HikiukeHosiki;
-            // 政府保険認定区分ドロップダウンの初期化（固定値：引受方式 = "1"）
+            // 政府保険認定区分ドロップダウンの初期化（画面設計に準拠：引受方式の条件は使用しない）
             var seifuList = db.M20160政府保険認定区分s
                 .Where(x =>
                     x.組合等コード == sessionInfo.KumiaitoCd &&
                     x.年産 == sessionInfo.Nensan &&
-                    x.共済目的コード == sessionInfo.KyosaiMokutekiCd &&
-                    x.引受方式 == F207Const.HIKIUKE_ZENSOUSAI) // ← 今は private string hikiuke = "1"; を仮で使っている
+                    x.共済目的コード == sessionInfo.KyosaiMokutekiCd)
                 .OrderBy(x => x.政府保険認定区分)
                 .Select(x => new SelectListItem
                 {
@@ -99,6 +95,12 @@ namespace NskWeb.Areas.F207.Controllers
                     Text = $"{x.政府保険認定区分} {x.短縮名称}"
                 })
                 .ToList();
+
+            if (seifuList == null || !seifuList.Any())
+            {
+                // 失敗時に業務エラー画面
+                throw new AppException("MF00001", MessageUtil.Get("MF00001"));
+            }
 
             // 利用可能な支所一覧が取得できなかったらエラー画面
             if (sessionInfo.RiyokanoShishoList == null || !sessionInfo.RiyokanoShishoList.Any())
@@ -146,8 +148,9 @@ namespace NskWeb.Areas.F207.Controllers
             }
             catch (Exception ex)
             {
+                // 失敗時に業務エラー画面
                 logger.Debug(ex.StackTrace);
-                throw new AppException("MF80002", MessageUtil.Get("MF80002", "共済目的"));
+                throw new AppException("MF00001", MessageUtil.Get("MF00001"));
             }
 
             // 初期表示情報をセッションに保存する
@@ -196,7 +199,7 @@ namespace NskWeb.Areas.F207.Controllers
                 TodofukenCd = Syokuin.TodofukenCd,
                 KumiaitoCd = Syokuin.KumiaitoCd,
                 ShishoCd = Syokuin.ShishoCd,
-                BatchNm = F205Const.BATCH_ID_NSK_205021B
+                BatchNm = F207Const.BATCH_ID_NSK_207031B
             };
 
             // 総件数取得フラグ
@@ -227,7 +230,7 @@ namespace NskWeb.Areas.F207.Controllers
                         .Any(t =>
                             jokenIds.Contains(t.バッチ条件id) &&
                             t.条件名称 == JoukenNameConst.JOUKEN_SHISHO &&
-                            t.条件値 == selectedShisho &&
+                            t.条件値 == ShishoCdCsv &&
                             db1.T01050バッチ条件s.Any(t2 =>
                                 t2.バッチ条件id == t.バッチ条件id &&
                                 t2.条件名称 == JoukenNameConst.JOUKEN_KYOSAI_MOKUTEKI_CD &&
@@ -384,7 +387,7 @@ namespace NskWeb.Areas.F207.Controllers
                         連番 = ++serialNumber,
                         条件名称 = JoukenNameConst.JOUKEN_NENSAN,
                         表示用条件値 = JoukenNameConst.JOUKEN_NENSAN,
-                        条件値 = md.SNensanHikiuke,
+                        条件値 = md.SNensanHyoka,
                         登録日時 = systemDate,
                         登録ユーザid = userId,
                         更新日時 = systemDate,
